@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>charSharing</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="icon"
+          type="image/png"
+          th:href="@{${favicon}}"/>
+    <link rel="stylesheet" th:href="@{${stylesCSS}}"/>
+</head>
+<body>
+
+
+<header class="container w-100 text-center">
+    <h1 class="mx-auto display-4 hidden-xs">Willkommen bei</h1>
+    <img th:src="@{${fullLogo}}" class="mx-auto w-100">
+   </header>
+
+<main class="container">
+    <section>
+        <div class="jumbotron">
+            <h3>Neues Dokument erstellen:</h3>
+            <form method="POST">
+                <div class="d-flex align-items-center mt-4">
+                    <label for="title" class="d-none d-sm-block">http://java-bootcamp.de/</label>
+                    <div class="flex-grow-1">
+                        <input th:field="${overviewPageModel.title}" type="text" id="title"
+                               class="form-control" pattern="[a-zA-Z0-9\s]+" title="Keine Sonderzeichen erlaubt!"
+                               placeholder="Dokumentenname">
+                    </div>
+
+                </div>
+                <div class="d-flex align-items-center mt-2">
+                    <label for="creator" class="d-none d-sm-block">Autor: </label>
+                    <div class="flex-grow-1">
+
+                        <input th:field="${overviewPageModel.creator}" type="text" id="creator"
+                               class="form-control" title="Keine Sonderzeichen erlaubt!"
+                               placeholder="Name">
+                    </div>
+                </div>
+
+
+                <div class="g-recaptcha mt-2"
+                     th:attr="data-sitekey=${@captchaSettings.getSite()}">
+                </div>
+                <div class="col-md-4 p-0">
+                    <button type="submit" class="btn btn-block btn-default mt-2">
+                        Dokument erstellen
+                    </button>
+
+                </div>
+
+                <span id="captchaError" class="alert alert-danger col-sm-4"
+                      style="display:none"></span>
+                <div>
+                    <span th:if="${titleEmpty} or ${creatorEmpty}">Bitte fülle alle Felder aus!</span>
+                    <span th:if="${documentAlreadyExists}">Ups! Ein Fehler ist aufgetreten. Eventuell existiert bereits ein Dokument mit diesem Titel :)</span>
+                </div>
+                <!--   1. Document name to Document Service for inspection
+                2. redirect to Page Service-->
+            </form>
+        </div>
+    </section>
+
+    <section>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 col-table">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Titel</th>
+                        <th scope="col">Bearbeitungsdatum</th>
+                        <th scope="col">Erstelldatum</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="document: ${documentList}">
+                        <td><a th:href="${pageServiceURL} +''+ ${document.title}" target="">
+                            <span th:text="${{document.title}}"></span>
+                        </a></td>
+                        <td class="td-date"><span th:text="${{document.updatedAt}}"></span></td>
+                        <td class="td-date"><span th:text="${{document.createdAt}}"></span></td>
+                    </tr>
+                    <script src='https://www.google.com/recaptcha/api.js'></script>
+                    <!-- jQuery library -->
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+                    <!-- Popper JS -->
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+                    <!-- Latest compiled JavaScript -->
+                    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

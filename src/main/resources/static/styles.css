@@ -1,0 +1,23 @@
+.btn-default{
+background-color: #BE97BB;
+color: white;
+}
+
+.table-striped tbody tr:nth-of-type(odd){
+background-color: #CADDF5;
+}
+
+.col-table {
+overflow-x: auto;
+}
+
+.td-date {
+white-space: nowrap;
+}
+
+@media screen and (max-width: 480px){
+.display-4{
+font-size: 2rem;
+}
+}
+
